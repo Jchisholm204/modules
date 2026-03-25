@@ -1,0 +1,24 @@
+#%Module1.0
+##
+## AURORA version 0.0.0 (Development Build)
+##
+
+proc ModulesHelp { } {
+    puts stderr "This module adds the AURORA development build to your environment."
+}
+
+module-whatis   "AURORA software suite - version 0.0.0"
+
+# Set the base directory to your build path
+set           topdir          /home/jacob/Documents/AURORA/build
+
+# Add the server binaries to your PATH
+# (Assuming 'server' is a subdirectory inside 'build' containing executables)
+prepend-path    PATH            $topdir/server
+
+# Add the library paths so the system can find AURORA's .so or .a files
+prepend-path    LD_LIBRARY_PATH $topdir/lib
+
+# Optional: If AURORA uses python bindings or specific include headers
+# prepend-path    PYTHONPATH      $topdir/lib
+# prepend-path    CPATH           $topdir/include
