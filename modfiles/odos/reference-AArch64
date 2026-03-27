@@ -19,7 +19,7 @@ prepend-path    PATH            $topdir/bin
 prepend-path    LD_LIBRARY_PATH $topdir/lib
 prepend-path    C_INCLUDE_PATH  $topdir/include
 prepend-path    CPATH           $topdir/include
-prepend-path    LD_LIBRARY_PATH /global/software/rocky-9.x86_64/modules/tools/doca/2.0.2/opt/mellanox/doca/
+prepend-path    LD_LIBRARY_PATH /global/software/rocky-9.aarch64/modules/tools/doca/2.0.2/opt/mellanox/doca/
 
 # Optional: Set a specific ODOS_HOME variable for build scripts
 setenv          ODOS_HOME       $topdir
