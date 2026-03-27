@@ -1,0 +1,29 @@
+#%Module1.0
+##
+## ODOS Modulefile
+##
+
+# Define the installation root based on the module name
+set version [module-info name]
+set topdir  "$env(HOME)/.modules/modules/$version"
+
+
+proc ModulesHelp { } {
+    puts stderr "\tThis module sets up the environment for ODOS ($version)"
+}
+
+module-whatis   "Loads the ODOS library version $version"
+
+# Core environment updates
+prepend-path    PATH            $topdir/bin
+prepend-path    LD_LIBRARY_PATH $topdir/lib
+prepend-path    C_INCLUDE_PATH  $topdir/include
+prepend-path    CPATH           $topdir/include
+prepend-path    LD_LIBRARY_PATH /global/software/rocky-9.x86_64/modules/tools/doca/2.0.2/opt/mellanox/doca/
+
+# Optional: Set a specific ODOS_HOME variable for build scripts
+setenv          ODOS_HOME       $topdir
+setenv          DOCA            /global/software/rocky-9.aarch64/modules/tools/doca/2.0.2/opt/mellanox/doca/
+setenv          MPI_PATH        $topdir
+setenv          CLANG_PATH      $topdir
+setenv          OPAL_PREFIX     $topdir
