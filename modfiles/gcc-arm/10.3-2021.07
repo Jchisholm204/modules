@@ -3,12 +3,10 @@
 ## Arm GNU Cross-Compiler Modulefile (x86_64 -> aarch64)
 ##
 
-# Get the module name/version (e.g., gcc-arm/10.3.2021.07)
 set name [module-info name]
 set version [lindex [split $name "/"] 1]
 set topdir "$env(HOME)/.modules/modules/$name"
 
-# Define the internal target directory and sysroot
 set target_dir "$topdir/aarch64-none-linux-gnu"
 set sysroot_dir "$target_dir/libc"
 
@@ -20,34 +18,20 @@ proc ModulesHelp { } {
 
 module-whatis "Loads the Arm GNU Cross-Compiler version $version"
 
-# 1. Pathing for the Host Tools (binaries that run on Rome)
 prepend-path    PATH            $topdir/bin
 
-# 2. Cross-Compilation Specific Variables
-# These tell your build system where the ARM-specific headers and libs are.
 setenv          ARM_SYSROOT     $sysroot_dir
 setenv          CROSS_COMPILE   aarch64-none-linux-gnu-
 
-# 3. DOCA / Network Offload Integration
-# Points to the optimized UCX/UCP libraries for the DPU
 set doca_path   "/global/software/rocky-9.x86_64/modules/tools/doca/2.0.2/opt/mellanox/doca"
 setenv          DOCA_HOME       $doca_path
 prepend-path    LD_LIBRARY_PATH $doca_path/lib
 
-# 4. Standard Include/Library Paths (Target-specific)
-# We use C_INCLUDE_PATH and LIBRARY_PATH for the cross-linker/compiler
 prepend-path    C_INCLUDE_PATH  $sysroot_dir/usr/include
 prepend-path    CPATH           $sysroot_dir/usr/include
 prepend-path    LIBRARY_PATH    $sysroot_dir/usr/lib
 prepend-path    LIBRARY_PATH    $sysroot_dir/lib
 
-# 5. Build System Helpers
-setenv          MPI_PATH        $topdir
-setenv          OPAL_PREFIX     $topdir
-setenv          CC              "aarch64-none-linux-gnu-gcc"
-setenv          CXX             "aarch64-none-linux-gnu-g++"
-
-# Safety: Architecture check to prevent loading on the DPU itself
 if { [uname machine] == "aarch64" } {
     puts stderr "WARNING: You are loading an x86_64->ARM cross-compiler on an ARM node."
     puts stderr "This may lead to binary execution errors."
