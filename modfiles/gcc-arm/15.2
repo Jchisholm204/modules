@@ -1,0 +1,38 @@
+#%Module1.0
+##
+## Arm GNU Cross-Compiler Modulefile (x86_64 -> aarch64)
+##
+
+set name [module-info name]
+set version [lindex [split $name "/"] 1]
+set topdir "$env(HOME)/.modules/modules/$name"
+
+set target_dir "$topdir/aarch64-none-linux-gnu"
+set sysroot_dir "$target_dir/libc"
+
+proc ModulesHelp { } {
+    global version
+    puts stderr "\tThis module sets up the Arm GNU Cross-Compiler ($version)"
+    puts stderr "\tTarget: aarch64-none-linux-gnu (BlueField DPU)"
+}
+
+module-whatis "Loads the Arm GNU Cross-Compiler version $version"
+
+prepend-path    PATH            $topdir/bin
+
+setenv          ARM_SYSROOT     $sysroot_dir
+setenv          CROSS_COMPILE   aarch64-none-linux-gnu-
+
+set doca_path   "/global/software/rocky-9.x86_64/modules/tools/doca/2.0.2/opt/mellanox/doca"
+setenv          DOCA_HOME       $doca_path
+prepend-path    LD_LIBRARY_PATH $doca_path/lib
+
+prepend-path    C_INCLUDE_PATH  $sysroot_dir/usr/include
+prepend-path    CPATH           $sysroot_dir/usr/include
+prepend-path    LIBRARY_PATH    $sysroot_dir/usr/lib
+prepend-path    LIBRARY_PATH    $sysroot_dir/lib
+
+if { [uname machine] == "aarch64" } {
+    puts stderr "WARNING: You are loading an x86_64->ARM cross-compiler on an ARM node."
+    puts stderr "This may lead to binary execution errors."
+}
