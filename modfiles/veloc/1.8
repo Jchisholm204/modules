@@ -1,0 +1,34 @@
+#%Module1.0
+##
+## VELOC Checkpointing Library Modulefile
+##
+
+# Define the installation root based on the module name
+set version [module-info name]
+set topdir  "$env(HOME)/.modules/modules/$version"
+
+proc ModulesHelp { } {
+    puts stderr "\tThis module sets up the environment for VeloC ($version)"
+}
+
+module-whatis   "Loads the VeloC Checkpointing Library - version $version"
+
+# --- DEPENDENCIES ---
+# Automatically loads dependencies (like openmpi). 
+# Lmod will also automatically unload them when you unload veloc.
+module load gcc/11
+module load hpcx/2.20
+# --------------------
+
+# Core environment updates
+prepend-path    PATH            $topdir/bin
+prepend-path    LD_LIBRARY_PATH $topdir/lib64
+prepend-path    C_INCLUDE_PATH  $topdir/include
+prepend-path    CPATH           $topdir/include
+prepend-path    LD_LIBRARY_PATH /global/software/rocky-9.x86_64/modules/tools/doca/2.0.2/opt/mellanox/doca/
+
+# --- SHARE PATH ADDITIONS ---
+prepend-path    CMAKE_PREFIX_PATH $topdir
+prepend-path    XDG_DATA_DIRS     $topdir/share
+prepend-path    MANPATH           $topdir/share/man
+# ----------------------------
