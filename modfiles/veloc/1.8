@@ -16,8 +16,9 @@ module-whatis   "Loads the VeloC Checkpointing Library - version $version"
 # --- DEPENDENCIES ---
 # Automatically loads dependencies (like openmpi). 
 # Lmod will also automatically unload them when you unload veloc.
-module load gcc/11
-module load hpcx/2.20
+catch { module load gcc/11 }
+catch { module load hpcx/2.20 }
+catch { module load mpi }
 # --------------------
 
 # Core environment updates
