@@ -1,0 +1,25 @@
+#%Module1.0
+##
+## VELOC Checkpointing Library Modulefile
+##
+
+# Define the installation root based on the module name
+set version [module-info name]
+set topdir  "$env(HOME)/.modules/modules/$version"
+
+proc ModulesHelp { } {
+    puts stderr "\tThis module sets up the environment for nuXmv ($version)"
+}
+
+module-whatis   "Loads the nuXmv Model Checker - version $version"
+
+# Core environment updates
+prepend-path    PATH            $topdir/bin
+prepend-path    LD_LIBRARY_PATH $topdir/lib
+prepend-path    C_INCLUDE_PATH  $topdir/include
+prepend-path    CPATH           $topdir/include
+
+# --- SHARE PATH ADDITIONS ---
+prepend-path    CMAKE_PREFIX_PATH $topdir
+prepend-path    XDG_DATA_DIRS     $topdir/share
+# ----------------------------
